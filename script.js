@@ -1,139 +1,173 @@
-// IMAGE FILTER
+const display = document.getElementById("display");
 
-function filterImages(category) {
+let firstNumber = "";
+let operator = "";
+let waitingForSecondNumber = false;
 
-    const images = document.querySelectorAll(".gallery img");
 
-    images.forEach(function(image) {
+// NUMBER
+function appendNumber(number) {
 
-        if (category === "all" || image.classList.contains(category)) {
-            image.style.display = "block";
-        } else {
-            image.style.display = "none";
+    if (display.value === "0" || waitingForSecondNumber) {
+        display.value = number;
+        waitingForSecondNumber = false;
+    } else {
+        display.value += number;
+    }
+
+}
+
+
+// DECIMAL
+function appendDecimal() {
+
+    if (waitingForSecondNumber) {
+        display.value = "0.";
+        waitingForSecondNumber = false;
+        return;
+    }
+
+    if (!display.value.includes(".")) {
+        display.value += ".";
+    }
+
+}
+
+
+// OPERATOR
+function chooseOperator(selectedOperator) {
+
+    firstNumber = parseFloat(display.value);
+
+    operator = selectedOperator;
+
+    waitingForSecondNumber = true;
+
+}
+
+
+// CALCULATE
+function calculate() {
+
+    if (operator === "" || waitingForSecondNumber) {
+        return;
+    }
+
+    const secondNumber = parseFloat(display.value);
+
+    let result;
+
+    if (operator === "+") {
+        result = firstNumber + secondNumber;
+    }
+
+    else if (operator === "-") {
+        result = firstNumber - secondNumber;
+    }
+
+    else if (operator === "*") {
+        result = firstNumber * secondNumber;
+    }
+
+    else if (operator === "/") {
+
+        if (secondNumber === 0) {
+            display.value = "Error";
+            return;
         }
 
-    });
+        result = firstNumber / secondNumber;
+    }
+
+    else if (operator === "%") {
+        result = firstNumber % secondNumber;
+    }
+
+    display.value = result;
+
+    firstNumber = result;
+
+    operator = "";
+
+    waitingForSecondNumber = true;
+
 }
 
 
-// LIGHTBOX
+// CLEAR
+function clearDisplay() {
 
-const galleryImages = document.querySelectorAll(".gallery img");
-const lightbox = document.getElementById("lightbox");
-const lightboxImg = document.getElementById("lightbox-img");
-const closeBtn = document.querySelector(".close");
-const prevBtn = document.querySelector(".prev");
-const nextBtn = document.querySelector(".next");
+    display.value = "0";
 
-let currentIndex = 0;
+    firstNumber = "";
 
+    operator = "";
 
-// OPEN IMAGE
+    waitingForSecondNumber = false;
 
-galleryImages.forEach(function(image, index) {
-
-    image.addEventListener("click", function() {
-
-        currentIndex = index;
-
-        lightbox.style.display = "flex";
-
-        lightboxImg.src = galleryImages[currentIndex].src;
-
-    });
-
-});
-
-
-// SHOW IMAGE
-
-function showImage(index) {
-
-    if (index < 0) {
-        index = galleryImages.length - 1;
-    }
-
-    if (index >= galleryImages.length) {
-        index = 0;
-    }
-
-    currentIndex = index;
-
-    lightboxImg.src = galleryImages[currentIndex].src;
 }
 
 
-// NEXT IMAGE >
+// DELETE
+function deleteLast() {
 
-nextBtn.addEventListener("click", function(event) {
+    if (display.value === "Error" || display.value.length <= 1) {
 
-    event.stopPropagation();
+        display.value = "0";
 
-    currentIndex++;
+    } else {
 
-    if (currentIndex >= galleryImages.length) {
-        currentIndex = 0;
+        display.value = display.value.slice(0, -1);
+
     }
 
-    lightboxImg.src = galleryImages[currentIndex].src;
-
-});
+}
 
 
-// PREVIOUS IMAGE <
-
-prevBtn.addEventListener("click", function(event) {
-
-    event.stopPropagation();
-
-    currentIndex--;
-
-    if (currentIndex < 0) {
-        currentIndex = galleryImages.length - 1;
-    }
-
-    lightboxImg.src = galleryImages[currentIndex].src;
-
-});
-
-
-// CLOSE X
-
-closeBtn.addEventListener("click", function() {
-
-    lightbox.style.display = "none";
-
-});
-
-
-// CLOSE OUTSIDE
-
-lightbox.addEventListener("click", function(event) {
-
-    if (event.target === lightbox) {
-        lightbox.style.display = "none";
-    }
-
-});
-
-
-// KEYBOARD
-
+// KEYBOARD SUPPORT
 document.addEventListener("keydown", function(event) {
 
-    if (lightbox.style.display === "flex") {
+    const key = event.key;
 
-        if (event.key === "ArrowRight") {
-            nextBtn.click();
-        }
+    if (key >= "0" && key <= "9") {
 
-        if (event.key === "ArrowLeft") {
-            prevBtn.click();
-        }
+        appendNumber(key);
 
-        if (event.key === "Escape") {
-            lightbox.style.display = "none";
-        }
+    }
+
+    else if (key === ".") {
+
+        appendDecimal();
+
+    }
+
+    else if (
+        key === "+" ||
+        key === "-" ||
+        key === "*" ||
+        key === "/" ||
+        key === "%"
+    ) {
+
+        chooseOperator(key);
+
+    }
+
+    else if (key === "Enter" || key === "=") {
+
+        calculate();
+
+    }
+
+    else if (key === "Escape") {
+
+        clearDisplay();
+
+    }
+
+    else if (key === "Backspace") {
+
+        deleteLast();
 
     }
 

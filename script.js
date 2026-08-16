@@ -1,6 +1,4 @@
-// ================================
 // IMAGE FILTER
-// ================================
 
 function filterImages(category) {
 
@@ -10,10 +8,10 @@ function filterImages(category) {
 
         if (category === "all") {
             image.style.display = "block";
-        }
+        } 
         else if (image.classList.contains(category)) {
             image.style.display = "block";
-        }
+        } 
         else {
             image.style.display = "none";
         }
@@ -22,26 +20,21 @@ function filterImages(category) {
 }
 
 
-// ================================
 // LIGHTBOX
-// ================================
 
 const galleryImages = document.querySelectorAll(".gallery img");
-
 const lightbox = document.getElementById("lightbox");
-
 const lightboxImg = document.getElementById("lightbox-img");
-
 const closeBtn = document.querySelector(".close");
 
 
-// Open image in lightbox
+// Open image
+
 galleryImages.forEach(function(image) {
 
     image.addEventListener("click", function() {
 
         lightbox.style.display = "flex";
-
         lightboxImg.src = image.src;
 
     });
@@ -49,7 +42,8 @@ galleryImages.forEach(function(image) {
 });
 
 
-// Close lightbox
+// Close using X
+
 closeBtn.addEventListener("click", function() {
 
     lightbox.style.display = "none";
@@ -57,7 +51,8 @@ closeBtn.addEventListener("click", function() {
 });
 
 
-// Close lightbox when clicking outside the image
+// Close by clicking outside image
+
 lightbox.addEventListener("click", function(event) {
 
     if (event.target === lightbox) {

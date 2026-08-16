@@ -6,32 +6,46 @@
     <title>CodeAlpha Image Gallery</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <h1>CodeAlpha Image Gallery</h1>
+    <header>
+        <h1>CodeAlpha Image Gallery</h1>
+        <p>Explore beautiful images from nature, animals and travel</p>
+    </header>
+
     <div class="filters">
-    <button onclick="filterImages('all')">All</button>
-    <button onclick="filterImages('nature')">Nature</button>
-    <button onclick="filterImages('animal')">Animals</button>
-    <button onclick="filterImages('travel')">Travel</button>
-</div>
-    
+        <button onclick="filterImages('all')">All</button>
+        <button onclick="filterImages('nature')">Nature</button>
+        <button onclick="filterImages('animal')">Animals</button>
+        <button onclick="filterImages('travel')">Travel</button>
+    </div>
 
     <div class="gallery">
-    <img src="https://picsum.photos/id/1015/300/200" class="nature">
-    <img src="https://picsum.photos/id/1016/300/200" class="nature">
 
-    <img src="https://picsum.photos/id/1024/300/200" class="animal">
-    <img src="https://picsum.photos/id/1025/300/200" class="animal">
+        <img src="https://picsum.photos/id/1015/300/200" class="nature" alt="Nature">
+        <img src="https://picsum.photos/id/1016/300/200" class="nature" alt="Nature">
 
-    <img src="https://picsum.photos/id/1035/300/200" class="travel">
-    <img src="https://picsum.photos/id/1040/300/200" class="travel">
-</div>
-    
+        <img src="https://picsum.photos/id/1024/300/200" class="animal" alt="Animal">
+        <img src="https://picsum.photos/id/1025/300/200" class="animal" alt="Animal">
+
+        <img src="https://picsum.photos/id/1035/300/200" class="travel" alt="Travel">
+        <img src="https://picsum.photos/id/1040/300/200" class="travel" alt="Travel">
+
+    </div>
+
+    <!-- Lightbox -->
 
     <div id="lightbox" class="lightbox">
+
         <span class="close">&times;</span>
-        <img id="lightbox-img" src="">
+
+        <button class="prev">&#10094;</button>
+
+        <img id="lightbox-img" src="" alt="Preview">
+
+        <button class="next">&#10095;</button>
+
     </div>
 
     <script src="script.js"></script>

@@ -1,24 +1,244 @@
-.filters{
-    margin:20px;
+/* ================================
+   GLOBAL STYLES
+================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.filters button{
-    padding:10px 20px;
-    margin:5px;
-    border:none;
-    border-radius:25px;
-    cursor:pointer;
-    font-size:16px;
-    background:#333;
-    color:white;
-    transition:0.3s;
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f7fa;
+    color: #222;
+    min-height: 100vh;
 }
 
-.filters button:hover{
-    background:#555;
-    transform:scale(1.05);
+
+/* ================================
+   HEADER
+================================ */
+
+header {
+    background: linear-gradient(135deg, #111827, #374151);
+    color: white;
+    text-align: center;
+    padding: 45px 20px;
 }
 
-.gallery img{
-    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+header h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+header p {
+    font-size: 18px;
+    color: #d1d5db;
+}
+
+
+/* ================================
+   FILTER BUTTONS
+================================ */
+
+.filters {
+    text-align: center;
+    margin: 30px 20px;
+}
+
+.filters button {
+    padding: 11px 24px;
+    margin: 6px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    background: #1f2937;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.filters button:hover {
+    background: #4b5563;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.filters button:active {
+    transform: scale(0.95);
+}
+
+
+/* ================================
+   IMAGE GALLERY
+================================ */
+
+.gallery {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto 50px;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+
+/* ================================
+   GALLERY IMAGES
+================================ */
+
+.gallery img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+
+    border-radius: 15px;
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+
+    cursor: pointer;
+
+    transition: transform 0.4s ease,
+                box-shadow 0.4s ease;
+}
+
+.gallery img:hover {
+    transform: scale(1.05);
+
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+}
+
+
+/* ================================
+   LIGHTBOX
+================================ */
+
+#lightbox {
+    display: none;
+
+    position: fixed;
+    z-index: 999;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.9);
+
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* ================================
+   LIGHTBOX IMAGE
+================================ */
+
+#lightbox-img {
+    max-width: 85%;
+    max-height: 85%;
+
+    border-radius: 10px;
+
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+
+    object-fit: contain;
+}
+
+
+/* ================================
+   CLOSE BUTTON
+================================ */
+
+.close {
+    position: absolute;
+
+    top: 20px;
+    right: 35px;
+
+    color: white;
+
+    font-size: 45px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.close:hover {
+    color: #cccccc;
+    transform: rotate(90deg);
+}
+
+
+/* ================================
+   RESPONSIVE DESIGN - TABLET
+================================ */
+
+@media (max-width: 900px) {
+
+    .gallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    header h1 {
+        font-size: 34px;
+    }
+}
+
+
+/* ================================
+   RESPONSIVE DESIGN - MOBILE
+================================ */
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 35px 15px;
+    }
+
+    header h1 {
+        font-size: 28px;
+    }
+
+    header p {
+        font-size: 15px;
+    }
+
+    .filters {
+        margin: 20px 10px;
+    }
+
+    .filters button {
+        padding: 9px 17px;
+        font-size: 14px;
+    }
+
+    .gallery {
+        width: 92%;
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .gallery img {
+        height: 230px;
+    }
+
+    #lightbox-img {
+        max-width: 92%;
+        max-height: 75%;
+    }
+
+    .close {
+        top: 10px;
+        right: 20px;
+        font-size: 38px;
+    }
 }

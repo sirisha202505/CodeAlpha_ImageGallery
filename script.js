@@ -1,173 +1,96 @@
-const display = document.getElementById("display");
+function filterImages(category) {
 
-let firstNumber = "";
-let operator = "";
-let waitingForSecondNumber = false;
+    const images = document.querySelectorAll(".gallery img");
 
+    images.forEach(function(image) {
 
-// NUMBER
-function appendNumber(number) {
-
-    if (display.value === "0" || waitingForSecondNumber) {
-        display.value = number;
-        waitingForSecondNumber = false;
-    } else {
-        display.value += number;
-    }
-
-}
-
-
-// DECIMAL
-function appendDecimal() {
-
-    if (waitingForSecondNumber) {
-        display.value = "0.";
-        waitingForSecondNumber = false;
-        return;
-    }
-
-    if (!display.value.includes(".")) {
-        display.value += ".";
-    }
-
-}
-
-
-// OPERATOR
-function chooseOperator(selectedOperator) {
-
-    firstNumber = parseFloat(display.value);
-
-    operator = selectedOperator;
-
-    waitingForSecondNumber = true;
-
-}
-
-
-// CALCULATE
-function calculate() {
-
-    if (operator === "" || waitingForSecondNumber) {
-        return;
-    }
-
-    const secondNumber = parseFloat(display.value);
-
-    let result;
-
-    if (operator === "+") {
-        result = firstNumber + secondNumber;
-    }
-
-    else if (operator === "-") {
-        result = firstNumber - secondNumber;
-    }
-
-    else if (operator === "*") {
-        result = firstNumber * secondNumber;
-    }
-
-    else if (operator === "/") {
-
-        if (secondNumber === 0) {
-            display.value = "Error";
-            return;
+        if (category === "all" || image.classList.contains(category)) {
+            image.style.display = "block";
+        } else {
+            image.style.display = "none";
         }
 
-        result = firstNumber / secondNumber;
-    }
-
-    else if (operator === "%") {
-        result = firstNumber % secondNumber;
-    }
-
-    display.value = result;
-
-    firstNumber = result;
-
-    operator = "";
-
-    waitingForSecondNumber = true;
-
+    });
 }
 
+const galleryImages = document.querySelectorAll(".gallery img");
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
+const closeBtn = document.querySelector(".close");
+const prevBtn = document.querySelector(".prev");
+const nextBtn = document.querySelector(".next");
 
-// CLEAR
-function clearDisplay() {
+let currentIndex = 0;
 
-    display.value = "0";
+galleryImages.forEach(function(image, index) {
 
-    firstNumber = "";
+    image.addEventListener("click", function() {
 
-    operator = "";
+        currentIndex = index;
+        lightbox.style.display = "flex";
+        lightboxImg.src = galleryImages[currentIndex].src;
 
-    waitingForSecondNumber = false;
+    });
 
-}
+});
 
+nextBtn.addEventListener("click", function(event) {
 
-// DELETE
-function deleteLast() {
+    event.stopPropagation();
 
-    if (display.value === "Error" || display.value.length <= 1) {
+    currentIndex++;
 
-        display.value = "0";
-
-    } else {
-
-        display.value = display.value.slice(0, -1);
-
+    if (currentIndex >= galleryImages.length) {
+        currentIndex = 0;
     }
 
-}
+    lightboxImg.src = galleryImages[currentIndex].src;
 
+});
 
-// KEYBOARD SUPPORT
+prevBtn.addEventListener("click", function(event) {
+
+    event.stopPropagation();
+
+    currentIndex--;
+
+    if (currentIndex < 0) {
+        currentIndex = galleryImages.length - 1;
+    }
+
+    lightboxImg.src = galleryImages[currentIndex].src;
+
+});
+
+closeBtn.addEventListener("click", function() {
+
+    lightbox.style.display = "none";
+
+});
+
+lightbox.addEventListener("click", function(event) {
+
+    if (event.target === lightbox) {
+        lightbox.style.display = "none";
+    }
+
+});
+
 document.addEventListener("keydown", function(event) {
 
-    const key = event.key;
+    if (lightbox.style.display === "flex") {
 
-    if (key >= "0" && key <= "9") {
+        if (event.key === "ArrowRight") {
+            nextBtn.click();
+        }
 
-        appendNumber(key);
+        if (event.key === "ArrowLeft") {
+            prevBtn.click();
+        }
 
-    }
-
-    else if (key === ".") {
-
-        appendDecimal();
-
-    }
-
-    else if (
-        key === "+" ||
-        key === "-" ||
-        key === "*" ||
-        key === "/" ||
-        key === "%"
-    ) {
-
-        chooseOperator(key);
-
-    }
-
-    else if (key === "Enter" || key === "=") {
-
-        calculate();
-
-    }
-
-    else if (key === "Escape") {
-
-        clearDisplay();
-
-    }
-
-    else if (key === "Backspace") {
-
-        deleteLast();
+        if (event.key === "Escape") {
+            lightbox.style.display = "none";
+        }
 
     }
 
